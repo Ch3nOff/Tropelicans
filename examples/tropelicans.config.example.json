@@ -1,0 +1,62 @@
+{
+  "runtime": {
+    "defaultAgent": "text",
+    "lazyAgentActivation": true
+  },
+  "agents": {
+    "text": {
+      "category": "general",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "backend": "huggingface",
+      "task": "text-generation",
+      "activeByDefault": true,
+      "maxNewTokens": 256,
+      "temperature": 0.7
+    },
+    "reasoning": {
+      "category": "reasoning",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "backend": "huggingface",
+      "task": "text-generation",
+      "activeByDefault": false,
+      "maxNewTokens": 512,
+      "temperature": 0.4
+    },
+    "coding": {
+      "category": "coding",
+      "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+      "backend": "huggingface",
+      "task": "text-generation",
+      "activeByDefault": false,
+      "maxNewTokens": 512,
+      "temperature": 0.2
+    },
+    "vision": {
+      "category": "vision",
+      "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+      "backend": "huggingface",
+      "task": "image-text-to-text",
+      "activeByDefault": false,
+      "maxNewTokens": 256,
+      "temperature": 0.2
+    }
+  },
+  "memory": {
+    "workingMemory": true,
+    "sessionMemory": true,
+    "projectMemory": true,
+    "userMemory": true,
+    "incidentMemory": true,
+    "importanceThreshold": 0.7
+  },
+  "workspace": {
+    "trackUserChanges": true,
+    "trackAiChanges": true
+  },
+  "webView": {
+    "onboarding": true,
+    "customizable": true,
+    "host": "127.0.0.1",
+    "port": 8765
+  }
+}
