@@ -120,7 +120,7 @@ After installation, the same commands are available through the `tropelicans` co
 - `tropelicans.memory` stores working, session, project, user, and incident-style JSON memories.
 - `tropelicans.skills` stores reusable user or AI-created skills.
 - `tropelicans.runtime` coordinates agents, workspace changes, skills, and memory.
-- `tropelicans.web` serves a small local web view and JSON status endpoint.
+0- `tropelicans.web` serves a small local web view and JSON status endpoint.
 
 ## Local Hugging Face models
 
