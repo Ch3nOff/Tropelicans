@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import threading
-import webbrowser
 from pathlib import Path
 
 from .config import config_to_dict, default_config
@@ -19,8 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run and customize the Tropelicans AI runtime.")
     parser.add_argument("--workspace", type=Path, default=Path.cwd(), help="Workspace directory to inspect and manage.")
     parser.add_argument("--config", type=Path, help="Path to a Tropelicans JSON config file.")
-    parser.add_argument("--no-open", action="store_true", help="Do not try to open the web view in a browser.")
-    sub = parser.add_subparsers(dest="command")
+    sub = parser.add_subparsers(dest="command", required=True)
 
     run = sub.add_parser("run", help="Send a prompt through the runtime.")
     run.add_argument("prompt")
@@ -48,11 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     download.add_argument("category", choices=[*RECOMMENDED_MODELS.keys(), "all"])
     download.add_argument("--cache-dir", type=Path)
 
-    start = sub.add_parser("start", help="Create config if needed and start the local web chat view.")
-    start.add_argument("--host")
-    start.add_argument("--port", type=int)
-
-    web = sub.add_parser("web", help="Start the local web chat view.")
+    web = sub.add_parser("web", help="Start the local web view.")
     web.add_argument("--host")
     web.add_argument("--port", type=int)
     return parser
@@ -61,10 +54,6 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     args.workspace.mkdir(parents=True, exist_ok=True)
-    if args.command is None:
-        args.command = "start"
-        args.host = None
-        args.port = None
 
     if args.command == "init":
         config_path = args.workspace / "tropelicans.config.json"
@@ -72,16 +61,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Created {config_path}")
         return 0
 
-    if args.command in {"web", "start"}:
-        config_path = args.config or args.workspace / "tropelicans.config.json"
-        if args.command == "start" and not config_path.exists():
-            config_path.write_text(json.dumps(config_to_dict(default_config()), indent=2), encoding="utf-8")
-            print(f"Created {config_path}")
-        if not args.no_open:
-            host = args.host or "127.0.0.1"
-            port = args.port or 8765
-            threading.Timer(0.8, lambda: webbrowser.open(f"http://{host}:{port}")).start()
-        serve(args.workspace, config_path if config_path.exists() else args.config, args.host, args.port)
+    if args.command == "web":
+        serve(args.workspace, args.config, args.host, args.port)
         return 0
 
     if args.command == "models":

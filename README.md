@@ -98,21 +98,19 @@ Tropelicans now includes a minimal Python framework implementation. Install the 
 ```bash
 pip install -e .
 pip install -e ".[huggingface]"
-tropelicans
 ```
-
-Running `tropelicans` with no subcommand performs the one-time local setup, creates `tropelicans.config.json` if it does not exist, starts the local web view, and opens the browser. The web view includes chat, runtime status, active agents, memory count, workspace information, and skill information.
-
-Useful optional commands:
 
 ```bash
-tropelicans models list
-tropelicans models download coding
-tropelicans status
-tropelicans web
+python -m tropelicans.cli --workspace . init
+python -m tropelicans.cli --workspace . status
+python -m tropelicans.cli --workspace . models list
+python -m tropelicans.cli --workspace . models download coding
+python -m tropelicans.cli --workspace . run "Help me understand this project"
+python -m tropelicans.cli --workspace . run "Write tests for this workspace" --category coding
+python -m tropelicans.cli --workspace . web
 ```
 
-If you do not want Tropelicans to open a browser automatically, run `tropelicans --no-open`.
+After installation, the same commands are available through the `tropelicans` console script.
 
 ## Implemented modules
 
@@ -122,7 +120,7 @@ If you do not want Tropelicans to open a browser automatically, run `tropelicans
 - `tropelicans.memory` stores working, session, project, user, and incident-style JSON memories.
 - `tropelicans.skills` stores reusable user or AI-created skills.
 - `tropelicans.runtime` coordinates agents, workspace changes, skills, and memory.
-- `tropelicans.web` serves the local chat web view plus JSON status and chat endpoints.
+0- `tropelicans.web` serves a small local web view and JSON status endpoint.
 
 ## Local Hugging Face models
 

@@ -3,7 +3,6 @@ from tempfile import TemporaryDirectory
 import json
 import unittest
 
-from tropelicans.cli import build_parser
 from tropelicans.config import default_config
 from tropelicans.models import RECOMMENDED_MODELS
 from tropelicans.runtime import TropelicansRuntime
@@ -24,10 +23,6 @@ def write_echo_config(root: Path) -> Path:
 
 
 class RuntimeTests(unittest.TestCase):
-    def test_cli_defaults_to_one_command_web_start(self):
-        args = build_parser().parse_args([])
-        self.assertIsNone(args.command)
-
     def test_default_config_uses_local_hugging_face_models(self):
         config = default_config()
         self.assertTrue(config.agents["text"].active_by_default)
